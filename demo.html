@@ -1,0 +1,63 @@
+<!doctype html>
+<title>Angular Sticky Demo</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.16/angular.js"></script>
+<script src="angular-sticky.js"></script>
+<script>angular.module('demo', ['sticky'])</script>
+<style>
+* {
+	font-size: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+}
+
+body {
+	font: 300 125%/1 "Helvetica Neue", Helvetica, sans-serif;
+	margin: 0 auto 2em;
+	max-width: 35em;
+	width: 80%;
+}
+
+h1 {
+	font-size: 150%;
+	font-weight: 700;
+	margin: 1.5em 0 0;
+}
+
+p {
+	line-height: 1.5;
+	margin: 2em 0 0;
+}
+
+p[data-sticky] {
+	background-color: #EEE;
+	font-weight: 700;
+}
+</style>
+
+<body ng-app="demo">
+	<h1>Angular Sticky Demo</h1>
+
+	<p>Those rocky islands the ship had passed were the resort of great numbers of seals, and some young seals that had lost their dams, or some dams that had lost their cubs, must have risen nigh the ship and kept company with her, crying and sobbing with their human sort of wail. But this only the more affected some of them, because most mariners cherish a very superstitious feeling about seals, arising not only from their peculiar tones when in distress, but also from the human look of their round heads and semi-intelligent faces, seen peeringly uprising from the water alongside. In the sea, under certain circumstances, seals have more than once been mistaken for men.</p>
+
+	<p>But the bodings of the crew were destined to receive a most plausible confirmation in the fate of one of their number that morning. At sun-rise this man went from his hammock to his mast-head at the fore; and whether it was that he was not yet half waked from his sleep (for sailors sometimes go aloft in a transition state), whether it was thus with the man, there is now no telling; but, be that as it may, he had not been long at his perch, when a cry was heard&mdash;a cry and a rushing&mdash;and looking up, they saw a falling phantom in the air; and looking down, a little tossed heap of white bubbles in the blue of the sea.</p>
+
+	<p>The life-buoy&mdash;a long slender cask&mdash;was dropped from the stern, where it always hung obedient to a cunning spring; but no hand rose to seize it, and the sun having long beat upon this cask it had shrunken, so that it slowly filled, and that parched wood also filled at its every pore; and the studded iron-bound cask followed the sailor to the bottom, as if to yield him his pillow, though in sooth but a hard one.</p>
+
+	<p data-sticky data-sticky-top="48" data-sticky-bottom="48" data-sticky-media="(min-width:640px)">This element is always visible on higher resolutions.</p>
+
+	<p>And thus the first man of the Pequod that mounted the mast to look out for the White Whale, on the White Whale's own peculiar ground; that man was swallowed up in the deep. But few, perhaps, thought of that at the time. Indeed, in some sort, they were not grieved at this event, at least as a portent; for they regarded it, not as a foreshadowing of evil in the future, but as the fulfilment of an evil already presaged. They declared that now they knew the reason of those wild shrieks they had heard the night before. But again the old Manxman said nay.</p>
+
+	<p>The lost life-buoy was now to be replaced; Starbuck was directed to see to it; but as no cask of sufficient lightness could be found, and as in the feverish eagerness of what seemed the approaching crisis of the voyage, all hands were impatient of any toil but what was directly connected with its final end, whatever that might prove to be; therefore, they were going to leave the ship's stern unprovided with a buoy, when by certain strange signs and inuendoes Queequeg hinted a hint concerning his coffin.</p>
+
+	<p>"A life-buoy of a coffin!" cried Starbuck, starting.</p>
+
+	<p>"Rather queer, that, I should say," said Stubb.</p>
+
+	<p>"It will make a good enough one," said Flask, "the carpenter here can arrange it easily."</p>
+
+	<p>"Bring it up; there's nothing else for it," said Starbuck, after a melancholy pause. "Rig it, carpenter; do not look at me so&mdash;the coffin, I mean. Dost thou hear me? Rig it."</p>
+
+	<p>"And shall I nail down the lid, sir?" moving his hand as with a hammer.</p>
+</body>
