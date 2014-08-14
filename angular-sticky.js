@@ -2,64 +2,79 @@
 	// set sticky module and directive
 	angular.module(namespace, []).directive(namespace, function () {
 		return {
-			link: function ($scope, element, attrs) {
+			link: function (scope, angularElement, attrs) {
 				var
+				// get element
+				element = angularElement[0],
+
+				// get document
+				document = element.ownerDocument,
+
+				// get window
+				window = document.defaultView,
+
+				// get wrapper
+				wrapper = document.createElement('span'),
+
+				// cache style
+				style = element.getAttribute('style'),
+
 				// get options
 				bottom = parseFloat(attrs[namespace + 'Bottom']),
 				media = window.matchMedia(attrs[namespace + 'Media'] || 'all'),
 				top = parseFloat(attrs[namespace + 'Top']),
-
-				// get elements
-				nativeElement = element[0],
-				nativeWrapper = document.createElement('span'),
-				wrapper = angular.element(nativeWrapper),
-
-				// cache style
-				style = element.attr('style'),
 
 				// initialize states
 				activeBottom = false,
 				activeTop = false,
 				offset = {};
 
+				// configure wrapper
+				wrapper.className = 'is-' + namespace;
+
 				// activate sticky
 				function activate() {
-					// conditionally skip unmatched media
-					if (!media.matches) {
-						activeTop = activeBottom = false;
-
-						return;
-					}
-
 					// get element computed style
 					var
-					computedStyle = getComputedStyle(nativeElement),
-					position = activeTop ? 'top:' + top : 'bottom:' + bottom;
+					computedStyle = getComputedStyle(element),
+					position = activeTop ? 'top:' + top : 'bottom:' + bottom,
+					parentNode = element.parentNode,
+					nextSibling = element.nextSibling;
 
 					// replace element with wrapper containing element
-					wrapper.append(element.replaceWith(wrapper));
+					wrapper.appendChild(element);
+
+					if (parentNode) {
+						parentNode.insertBefore(wrapper, nextSibling);
+					}
 
 					// style wrapper
-					wrapper.attr('style', 'display:' + computedStyle.display + ';height:' + nativeElement.offsetHeight + 'px;margin:' + computedStyle.margin + ';width:' + nativeElement.offsetWidth + 'px');
+					wrapper.setAttribute('style', 'display:' + computedStyle.display + ';height:' + element.offsetHeight + 'px;margin:' + computedStyle.margin + ';width:' + element.offsetWidth + 'px');
 
 					// style element
-					element.attr('style', 'left:' + offset.left + 'px;margin:0;position:fixed;transition:none;' + position + 'px;width:' + computedStyle.width);
+					element.setAttribute('style', 'left:' + offset.left + 'px;margin:0;position:fixed;transition:none;' + position + 'px;width:' + computedStyle.width);
 				}
 
 				// deactivate sticky
 				function deactivate() {
+					var
+					parentNode = wrapper.parentNode,
+					nextSibling = wrapper.nextSibling;
+
+					// replace wrapper with element
+					parentNode.removeChild(wrapper);
+
+					parentNode.insertBefore(element, nextSibling);
+
 					// unstyle element
-					if (style === undefined) {
-						element.removeAttr('style');
+					if (style === null) {
+						element.removeAttribute('style');
 					} else {
-						element.attr('style', style);
+						element.setAttribute('style', style);
 					}
 
 					// unstyle wrapper
-					wrapper.removeAttr('style');
-
-					// replace wrapper with element
-					wrapper.replaceWith(element);
+					wrapper.removeAttribute('style');
 
 					activeTop = activeBottom = false;
 				}
@@ -69,9 +84,9 @@
 					// if activated
 					if (activeTop || activeBottom) {
 						// get wrapper offset
-						offset = nativeWrapper.getBoundingClientRect();
+						offset = wrapper.getBoundingClientRect();
 
-						activeBottom = !isNaN(bottom) && offset.top > window.innerHeight - bottom - nativeWrapper.offsetHeight;
+						activeBottom = !isNaN(bottom) && offset.top > window.innerHeight - bottom - wrapper.offsetHeight;
 						activeTop = !isNaN(top) && offset.top < top;
 
 						// deactivate if wrapper is inside range
@@ -80,11 +95,11 @@
 						}
 					}
 					// if not activated
-					else {
+					else if (media.matches) {
 						// get element offset
-						offset = nativeElement.getBoundingClientRect();
+						offset = element.getBoundingClientRect();
 
-						activeBottom = !isNaN(bottom) && offset.top > window.innerHeight - bottom - nativeElement.offsetHeight;
+						activeBottom = !isNaN(bottom) && offset.top > window.innerHeight - bottom - element.offsetHeight;
 						activeTop = !isNaN(top) && offset.top < top;
 
 						// activate if element is outside range
@@ -105,9 +120,19 @@
 					onscroll();
 				}
 
+				// destroy listener
+				function ondestroy() {
+					onresize();
+
+					window.removeEventListener('scroll', onscroll);
+					window.removeEventListener('resize', onresize);
+				}
+
 				// bind listeners
 				window.addEventListener('scroll', onscroll);
 				window.addEventListener('resize', onresize);
+
+				scope.$on('$destroy', ondestroy);
 
 				// initialize sticky
 				onscroll();
