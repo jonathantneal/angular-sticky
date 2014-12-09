@@ -1,0 +1,24 @@
+{
+    "name": "angular-sticky",
+    "version": "1.0.0",
+    "authors": [
+        "Jonathan Neal <jonathantneal+github@gmail.com>"
+    ],
+    "description": "An AngularJS directive that gives you the ability to keep any element on your page visible.",
+    "main": "angular-sticky.js",
+    "keywords": [
+        "angular",
+        "sticky",
+        "magellan",
+        "navbar",
+        "persistent"
+    ],
+    "license": "CC0 1.0 Universal",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
+}
