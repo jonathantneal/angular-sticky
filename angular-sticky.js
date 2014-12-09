@@ -6,6 +6,8 @@
 	angular.module(namespace, []).directive(namespace, function () {
 		return {
 			link: function (scope, angularElement, attrs) {
+				console.log('[angular-sticky create]');
+
 				var
 				// get element
 				element = angularElement[0],
@@ -16,11 +18,16 @@
 				// get window
 				window = document.defaultView,
 
-				// get wrapper
-				wrapper = document.createElement('span'),
+				// get wrapper type
+				wrapperType = attrs[namespace + 'WrapperTag'] || 'span',
 
-				// cache style
+				// get wrapper
+				wrapper = document.createElement(wrapperType),
+
+				// cache styles
 				style = element.getAttribute('style'),
+				stickyStyle = attrs[namespace + 'Style'] || '',
+				stickyClass = attrs[namespace + 'Class'] || '',
 
 				// get options
 				bottom = parseFloat(attrs[namespace + 'Bottom']),
@@ -37,6 +44,8 @@
 
 				// activate sticky
 				function activate() {
+					console.log('[angular-sticky activate]');
+
 					// get element computed style
 					var
 					computedStyle = getComputedStyle(element),
@@ -52,14 +61,33 @@
 					}
 
 					// style wrapper
-					wrapper.setAttribute('style', 'display:' + computedStyle.display + ';height:' + element.offsetHeight + 'px;margin:' + computedStyle.margin + ';width:' + element.offsetWidth + 'px');
+					wrapper.setAttribute('style',
+						'display:' + computedStyle.display + ';' +
+						'height:' + element.offsetHeight + 'px;' +
+						'margin:' + computedStyle.margin + ';' +
+						'width:' + element.offsetWidth + 'px;' +
+						stickyStyle
+					);
+
+					var angularWrapper = angular.element(wrapper);
+					angularWrapper.addClass(stickyClass);
 
 					// style element
-					element.setAttribute('style', 'left:' + offset.left + 'px;margin:0;position:fixed;transition:none;' + position + 'px;width:' + computedStyle.width);
+					element.setAttribute('style',
+						'left:' + offset.left + 'px;' +
+						'margin:0;' +
+						'position:fixed;' +
+						'transition:none;' +
+						position + 'px;' +
+						'width:' + computedStyle.width + ';' +
+						stickyStyle
+					);
 				}
 
 				// deactivate sticky
 				function deactivate() {
+					console.log('[angular-sticky deactivate]');
+
 					var
 					parentNode = wrapper.parentNode,
 					nextSibling = wrapper.nextSibling;
@@ -84,6 +112,8 @@
 
 				// window scroll listener
 				function onscroll() {
+					console.log('[angular-sticky onscroll]');
+
 					// if activated
 					if (activeTop || activeBottom) {
 						// get wrapper offset
@@ -114,6 +144,8 @@
 
 				// window resize listener
 				function onresize() {
+					console.log('[angular-sticky onresize]');
+
 					// conditionally deactivate sticky
 					if (activeTop || activeBottom) {
 						deactivate();
@@ -125,6 +157,8 @@
 
 				// destroy listener
 				function ondestroy() {
+					console.log('[angular-sticky ondestroy]');
+
 					onresize();
 
 					window.removeEventListener('scroll', onscroll);
