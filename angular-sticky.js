@@ -4,9 +4,11 @@
 (function (namespace) {
 	// set sticky module and directive
 	angular.module(namespace, []).directive(namespace, function () {
+        var DEBUG = false;
+
 		return {
 			link: function (scope, angularElement, attrs) {
-				console.log('[angular-sticky create]');
+				DEBUG && console.log('[angular-sticky create]');
 
 				var
 				// get element
@@ -44,7 +46,7 @@
 
 				// activate sticky
 				function activate() {
-					console.log('[angular-sticky activate]');
+					DEBUG && console.log('[angular-sticky activate]');
 
 					// get element computed style
 					var
@@ -86,7 +88,7 @@
 
 				// deactivate sticky
 				function deactivate() {
-					console.log('[angular-sticky deactivate]');
+					DEBUG && console.log('[angular-sticky deactivate]');
 
 					var
 					parentNode = wrapper.parentNode,
@@ -112,7 +114,7 @@
 
 				// window scroll listener
 				function onscroll() {
-					console.log('[angular-sticky onscroll]');
+					DEBUG && console.log('[angular-sticky onscroll]');
 
 					// if activated
 					if (activeTop || activeBottom) {
@@ -144,7 +146,7 @@
 
 				// window resize listener
 				function onresize() {
-					console.log('[angular-sticky onresize]');
+					DEBUG && console.log('[angular-sticky onresize]');
 
 					// conditionally deactivate sticky
 					if (activeTop || activeBottom) {
@@ -157,7 +159,7 @@
 
 				// destroy listener
 				function ondestroy() {
-					console.log('[angular-sticky ondestroy]');
+					DEBUG && console.log('[angular-sticky ondestroy]');
 
 					onresize();
 
