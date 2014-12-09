@@ -1,3 +1,6 @@
+/*!
+ * @license CC0 1.0 Universal License
+ */
 (function (namespace) {
 	// set sticky module and directive
 	angular.module(namespace, []).directive(namespace, function () {
