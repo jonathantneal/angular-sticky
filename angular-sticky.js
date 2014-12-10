@@ -47,7 +47,7 @@
 					(wrapperProvided.toLowerCase().trim() == 'true');
 
 				if (wrapperProvided) {
-					console.log('[angular-sticky create] using provided wrapper');
+					DEBUG && console.log('[angular-sticky create] using provided wrapper');
 					wrapper = element.parentNode;
 				} else {
 					wrapper = document.createElement(wrapperType);
