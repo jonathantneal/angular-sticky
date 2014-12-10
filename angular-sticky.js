@@ -3,8 +3,8 @@
  */
 (function (namespace) {
 	// set sticky module and directive
-	angular.module(namespace, []).directive(namespace, function () {
-        var DEBUG = false;
+	angular.module(namespace, []).directive(namespace, ['$compile', function ($compile) {
+		var DEBUG = true;
 
 		return {
 			link: function (scope, angularElement, attrs) {
@@ -22,9 +22,10 @@
 
 				// get wrapper type
 				wrapperType = attrs[namespace + 'WrapperTag'] || 'span',
+				wrapperProvided = attrs[namespace + 'WrapperProvided'] || 'false',
 
 				// get wrapper
-				wrapper = document.createElement(wrapperType),
+				wrapper,
 
 				// cache styles
 				style = element.getAttribute('style'),
@@ -41,6 +42,17 @@
 				activeTop = false,
 				offset = {};
 
+				// see if a wrapper context has already been provided
+				wrapperProvided =
+					(wrapperProvided.toLowerCase().trim() == 'true');
+
+				if (wrapperProvided) {
+					console.log('[angular-sticky create] using provided wrapper');
+					wrapper = element.parentNode;
+				} else {
+					wrapper = document.createElement(wrapperType);
+				}
+
 				// configure wrapper
 				wrapper.className = 'is-' + namespace;
 
@@ -56,10 +68,11 @@
 					nextSibling = element.nextSibling;
 
 					// replace element with wrapper containing element
-					wrapper.appendChild(element);
-
-					if (parentNode) {
-						parentNode.insertBefore(wrapper, nextSibling);
+					if (!wrapperProvided) {
+						wrapper.appendChild(element);
+						if (parentNode) {
+							parentNode.insertBefore(wrapper, nextSibling);
+						}
 					}
 
 					// style wrapper
@@ -94,10 +107,12 @@
 					parentNode = wrapper.parentNode,
 					nextSibling = wrapper.nextSibling;
 
-					// replace wrapper with element
-					parentNode.removeChild(wrapper);
+					if (!wrapperProvided) {
+						// replace wrapper with element
+						parentNode.removeChild(wrapper);
 
-					parentNode.insertBefore(element, nextSibling);
+						parentNode.insertBefore(element, nextSibling);
+					}
 
 					// unstyle element
 					if (style === null) {
@@ -177,5 +192,5 @@
 				onscroll();
 			}
 		};
-	});
+	}]);
 })('sticky');

@@ -35,6 +35,7 @@ Finally, add a *sticky* attribute to an element.
 - **sticky-bottom**: Pixels between the bottom of the page and the sticky element.
 - **sticky-media**: Media query required to enable sticky.
 - **sticky-wrapper-tag**: Specifies the HTML tag that is used when creating the sticky wrapper.
+- **sticky-wrapper-provided**: Specifies whether the parent node is an already-provided sticky wrapper.
 - **sticky-style**: Specifies the CSS style that should be added to the wrapper and element when in sticky mode.
 - **sticky-class**: Specifies the CSS class that should be added to the wrapper and element when in sticky mode.
 
