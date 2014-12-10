@@ -4,7 +4,7 @@
 (function (namespace) {
 	// set sticky module and directive
 	angular.module(namespace, []).directive(namespace, ['$compile', function ($compile) {
-		var DEBUG = true;
+		var DEBUG = false;
 
 		return {
 			link: function (scope, angularElement, attrs) {
