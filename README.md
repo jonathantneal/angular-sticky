@@ -38,6 +38,7 @@ Finally, add a *sticky* attribute to an element.
 - **sticky-wrapper-provided**: Specifies whether the parent node is an already-provided sticky wrapper.
 - **sticky-style**: Specifies the CSS style that should be added to the wrapper and element when in sticky mode.
 - **sticky-class**: Specifies the CSS class that should be added to the wrapper and element when in sticky mode.
+- **sticky-init-delay**: Sets the number of milliseconds delay before the sticky element is initialized.
 
 ## Demo
 

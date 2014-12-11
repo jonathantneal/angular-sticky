@@ -3,7 +3,7 @@
  */
 (function (namespace) {
 	// set sticky module and directive
-	angular.module(namespace, []).directive(namespace, ['$compile', function ($compile) {
+	angular.module(namespace, []).directive(namespace, ['$compile', '$timeout', function ($compile, $timeout) {
 		var DEBUG = false;
 
 		return {
@@ -31,6 +31,9 @@
 				style = element.getAttribute('style'),
 				stickyStyle = attrs[namespace + 'Style'] || '',
 				stickyClass = attrs[namespace + 'Class'] || '',
+
+				// get the initialization delay
+				stickyInitDelayMsec = attrs[namespace + 'InitDelay'] || 1,
 
 				// get options
 				bottom = parseFloat(attrs[namespace + 'Bottom']),
@@ -189,7 +192,13 @@
 				scope.$on('$destroy', ondestroy);
 
 				// initialize sticky
-				onscroll();
+				$timeout(
+					function() {
+						DEBUG && console.log('[angular-sticky initialize]');
+						onscroll();
+					},
+					stickyInitDelayMsec
+				);
 			}
 		};
 	}]);
