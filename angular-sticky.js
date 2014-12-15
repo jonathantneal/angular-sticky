@@ -6,10 +6,18 @@
 	angular.module(namespace, []).directive(namespace, ['$compile', '$timeout', function ($compile, $timeout) {
 		var DEBUG = false;
 
-		if (window.mediaMatch === undefined) {
-			console.error('angular-sticky requires window.mediaMatch support, which your browser does not seem to support.');
-			console.error('Load a shim layer like https://github.com/weblinc/media-match to provide that functionality.');
-			return;
+		if (window.matchMedia === undefined) {
+			return {
+				link: function() {
+					console.error(
+						'angular-sticky requires window.matchMedia, ' +
+						'which your browser does not seem to support.  ' +
+						'Please load a shim layer like ' +
+						'https://github.com/weblinc/media-match to ' +
+						'provide that functionality.'
+					);
+				}
+			};
 		}
 
 		return {
