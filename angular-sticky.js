@@ -6,6 +6,12 @@
 	angular.module(namespace, []).directive(namespace, ['$compile', '$timeout', function ($compile, $timeout) {
 		var DEBUG = false;
 
+		if (window.mediaMatch === undefined) {
+			console.error('angular-sticky requires window.mediaMatch support, which your browser does not seem to support.');
+			console.error('Load a shim layer like https://github.com/weblinc/media-match to provide that functionality.');
+			return;
+		}
+
 		return {
 			link: function (scope, angularElement, attrs) {
 				DEBUG && console.log('[angular-sticky create]');
