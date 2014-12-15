@@ -1,13 +1,19 @@
 /*!
  * @license CC0 1.0 Universal License
  */
+
+/*jslint browser: true, plusplus: true, white: true, indent: 4 */
+/*global angular, getComputedStyle */
+
 (function (namespace) {
+	"use strict";
+
 	// set sticky module and directive
 	angular.module(namespace, []).directive(namespace, ['$timeout', '$log', function ($timeout, $log) {
 		if (window.matchMedia === undefined) {
 			return {
-				link: function() {
-					console.error(
+				link: function () {
+					$log.error(
 						'angular-sticky requires window.matchMedia, ' +
 						'which your browser does not seem to support.  ' +
 						'Please load a shim layer like ' +
@@ -59,7 +65,7 @@
 
 				// see if a wrapper context has already been provided
 				wrapperProvided =
-					(wrapperProvided.toLowerCase().trim() == 'true');
+					(wrapperProvided.toLowerCase().trim() === 'true');
 
 				if (wrapperProvided) {
 					$log.debug('[angular-sticky create] using provided wrapper');
@@ -80,7 +86,8 @@
 					computedStyle = getComputedStyle(element),
 					position = activeTop ? 'top:' + top : 'bottom:' + bottom,
 					parentNode = element.parentNode,
-					nextSibling = element.nextSibling;
+					nextSibling = element.nextSibling,
+					angularWrapper;
 
 					// replace element with wrapper containing element
 					if (!wrapperProvided) {
@@ -99,7 +106,7 @@
 						stickyStyle
 					);
 
-					var angularWrapper = angular.element(wrapper);
+					angularWrapper = angular.element(wrapper);
 					angularWrapper.addClass(stickyClass);
 
 					// style element
@@ -130,7 +137,7 @@
 					}
 
 					// unstyle element
-					if (style === null) {
+					if (!style) {
 						element.removeAttribute('style');
 					} else {
 						element.setAttribute('style', style);
@@ -146,8 +153,7 @@
 				function onscroll() {
 					$log.debug('[angular-sticky onscroll]');
 
-					// if activated
-					if (activeTop || activeBottom) {
+					if (activeTop || activeBottom) { // if activated
 						// get wrapper offset
 						offset = wrapper.getBoundingClientRect();
 
@@ -158,9 +164,7 @@
 						if (!activeTop && !activeBottom) {
 							deactivate();
 						}
-					}
-					// if not activated
-					else if (media.matches) {
+					} else if (media.matches) { // if not activated
 						// get element offset
 						offset = element.getBoundingClientRect();
 
@@ -205,7 +209,7 @@
 
 				// initialize sticky
 				$timeout(
-					function() {
+					function () {
 						$log.debug('[angular-sticky initialize]');
 						onscroll();
 					},
@@ -214,4 +218,4 @@
 			}
 		};
 	}]);
-})('sticky');
+}('sticky'));
