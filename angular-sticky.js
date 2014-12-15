@@ -3,9 +3,7 @@
  */
 (function (namespace) {
 	// set sticky module and directive
-	angular.module(namespace, []).directive(namespace, ['$compile', '$timeout', function ($compile, $timeout) {
-		var DEBUG = false;
-
+	angular.module(namespace, []).directive(namespace, ['$timeout', '$log', function ($timeout, $log) {
 		if (window.matchMedia === undefined) {
 			return {
 				link: function() {
@@ -22,7 +20,7 @@
 
 		return {
 			link: function (scope, angularElement, attrs) {
-				DEBUG && console.log('[angular-sticky create]');
+				$log.debug('[angular-sticky create]');
 
 				var
 				// get element
@@ -64,7 +62,7 @@
 					(wrapperProvided.toLowerCase().trim() == 'true');
 
 				if (wrapperProvided) {
-					DEBUG && console.log('[angular-sticky create] using provided wrapper');
+					$log.debug('[angular-sticky create] using provided wrapper');
 					wrapper = element.parentNode;
 				} else {
 					wrapper = document.createElement(wrapperType);
@@ -75,7 +73,7 @@
 
 				// activate sticky
 				function activate() {
-					DEBUG && console.log('[angular-sticky activate]');
+					$log.debug('[angular-sticky activate]');
 
 					// get element computed style
 					var
@@ -118,7 +116,7 @@
 
 				// deactivate sticky
 				function deactivate() {
-					DEBUG && console.log('[angular-sticky deactivate]');
+					$log.debug('[angular-sticky deactivate]');
 
 					var
 					parentNode = wrapper.parentNode,
@@ -146,7 +144,7 @@
 
 				// window scroll listener
 				function onscroll() {
-					DEBUG && console.log('[angular-sticky onscroll]');
+					$log.debug('[angular-sticky onscroll]');
 
 					// if activated
 					if (activeTop || activeBottom) {
@@ -178,7 +176,7 @@
 
 				// window resize listener
 				function onresize() {
-					DEBUG && console.log('[angular-sticky onresize]');
+					$log.debug('[angular-sticky onresize]');
 
 					// conditionally deactivate sticky
 					if (activeTop || activeBottom) {
@@ -191,7 +189,7 @@
 
 				// destroy listener
 				function ondestroy() {
-					DEBUG && console.log('[angular-sticky ondestroy]');
+					$log.debug('[angular-sticky ondestroy]');
 
 					onresize();
 
@@ -208,7 +206,7 @@
 				// initialize sticky
 				$timeout(
 					function() {
-						DEBUG && console.log('[angular-sticky initialize]');
+						$log.debug('[angular-sticky initialize]');
 						onscroll();
 					},
 					stickyInitDelayMsec
