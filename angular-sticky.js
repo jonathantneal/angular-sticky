@@ -49,6 +49,7 @@
 				style = element.getAttribute('style'),
 				stickyStyle = attrs[namespace + 'Style'] || '',
 				stickyClass = attrs[namespace + 'Class'] || '',
+				positionUsingStyle = attrs[namespace + 'PositionUsingStyle'] || 'true',
 
 				// get the initialization delay
 				stickyInitDelayMsec = attrs[namespace + 'InitDelay'] || 1,
@@ -62,6 +63,10 @@
 				activeBottom = false,
 				activeTop = false,
 				offset = {};
+
+				// see if positioning should be done by angular-sticky
+				positionUsingStyle =
+					(positionUsingStyle.toLowerCase().trim() === 'true');
 
 				// see if a wrapper context has already been provided
 				wrapperProvided =
@@ -87,7 +92,8 @@
 					position = activeTop ? 'top:' + top : 'bottom:' + bottom,
 					parentNode = element.parentNode,
 					nextSibling = element.nextSibling,
-					angularWrapper;
+					angularWrapper,
+					elementStyle;
 
 					// replace element with wrapper containing element
 					if (!wrapperProvided) {
@@ -110,15 +116,22 @@
 					angularWrapper.addClass(stickyClass);
 
 					// style element
-					element.setAttribute('style',
+					elementStyle =
 						'left:' + offset.left + 'px;' +
 						'margin:0;' +
 						'position:fixed;' +
 						'transition:none;' +
-						position + 'px;' +
+						position + 'px;';
+
+					element.setAttribute('style',
+						(positionUsingStyle ? elementStyle : '') +
 						'width:' + computedStyle.width + ';' +
 						stickyStyle
 					);
+
+					if (!positionUsingStyle) {
+						angularElement.addClass(stickyClass);
+					}
 				}
 
 				// deactivate sticky
@@ -127,6 +140,7 @@
 
 					var
 					parentNode = wrapper.parentNode,
+					angularWrapper = angular.element(wrapper),
 					nextSibling = wrapper.nextSibling;
 
 					if (!wrapperProvided) {
@@ -142,6 +156,9 @@
 					} else {
 						element.setAttribute('style', style);
 					}
+
+					angularElement.removeClass(stickyClass);
+					angularWrapper.removeClass(stickyClass);
 
 					// unstyle wrapper
 					wrapper.removeAttribute('style');
