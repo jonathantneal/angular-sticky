@@ -77,10 +77,10 @@
 					wrapper = element.parentNode;
 				} else {
 					wrapper = document.createElement(wrapperType);
-				}
 
-				// configure wrapper
-				wrapper.className = 'is-' + namespace;
+					// configure wrapper
+					wrapper.className = 'is-' + namespace;
+				}
 
 				// activate sticky
 				function activate() {
