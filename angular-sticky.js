@@ -3,7 +3,7 @@
  */
 
 /*jslint browser: true, plusplus: true, white: true, indent: 4 */
-/*global angular, getComputedStyle */
+/*global angular, getComputedStyle, MutationObserver */
 
 (function (namespace) {
 	"use strict";
@@ -62,7 +62,17 @@
 				// initialize states
 				activeBottom = false,
 				activeTop = false,
-				offset = {};
+				offset = {},
+
+				// MutationObserver to handle dynamic changes
+				observer,
+				observerConfig =
+					{
+						attributes: true,
+						childList: true,
+						characterData: true,
+						subtree: true
+					};
 
 				// see if positioning should be done by angular-sticky
 				positionUsingStyle =
@@ -218,6 +228,42 @@
 				// bind listeners
 				window.addEventListener('scroll', onscroll);
 				window.addEventListener('resize', onresize);
+
+				if ('MutationObserver' in window) {
+					$log.debug('[angular-sticky create] mutation observer found');
+
+					observer =
+						new MutationObserver(function (mutations) {
+							mutations.forEach(function (mutation) {
+								if (mutation.type !== 'attributes') {
+									return;
+								}
+
+								switch (mutation.attributeName) {
+								case 'class':
+								case 'style':
+									break;
+								default:
+									return;
+								}
+
+								if (wrapper.offsetHeight === element.offsetHeight) {
+									return;
+								}
+
+								$log.debug('[angular-sticky mutation-observer]');
+								onresize();
+							});
+						});
+
+					observer.observe(element, observerConfig);
+				} else {
+					$log.warn(
+						'MutationObserver support not found in your ' +
+						'browser.  There may be problems if the ' +
+						'sticky bar content is dynamic.'
+					);
+				}
 
 				scope.$on('$destroy', ondestroy);
 
