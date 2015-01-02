@@ -225,15 +225,15 @@
 					window.removeEventListener('resize', onresize);
 				}
 
-                // registers the MutationObserver
-                function registerobserver() {
+				// registers the MutationObserver
+				function registerobserver() {
 					observer.observe(element, observerConfig);
-                }
+				}
 
-                // unregisters the MutationObserver
-                function unregisterobserver() {
+				// unregisters the MutationObserver
+				function unregisterobserver() {
 					observer.disconnect();
-                }
+				}
 
 				// bind listeners
 				window.addEventListener('scroll', onscroll);
@@ -262,13 +262,13 @@
 								}
 
 								$log.debug('[angular-sticky mutation-observer]');
-                                unregisterobserver();
+								unregisterobserver();
 								onresize();
-                                registerobserver();
+								registerobserver();
 							});
 						});
 
-                    registerobserver();
+					registerobserver();
 				} else {
 					$log.warn(
 						'MutationObserver support not found in your ' +
