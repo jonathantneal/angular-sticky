@@ -77,9 +77,6 @@
 					wrapper = element.parentNode;
 				} else {
 					wrapper = document.createElement(wrapperType);
-
-					// configure wrapper
-					wrapper.className = 'is-' + namespace;
 				}
 
 				// activate sticky
@@ -113,7 +110,7 @@
 					);
 
 					angularWrapper = angular.element(wrapper);
-					angularWrapper.addClass(stickyClass);
+					angularWrapper.addClass('is-' + namespace);
 
 					// style element
 					elementStyle =
@@ -158,7 +155,7 @@
 					}
 
 					angularElement.removeClass(stickyClass);
-					angularWrapper.removeClass(stickyClass);
+					angularWrapper.removeClass('is-' + namespace);
 
 					// unstyle wrapper
 					wrapper.removeAttribute('style');

@@ -28,6 +28,9 @@ Finally, add a *sticky* attribute to an element.
 </div>
 ```
 
+The CSS class **is-sticky** will be applied to the wrapper when
+activated and removed when deactivated.
+
 ## Options
 
 - **sticky**: Enables an element to become sticky.
@@ -38,7 +41,7 @@ Finally, add a *sticky* attribute to an element.
 - **sticky-wrapper-provided**: Specifies whether the parent node is an already-provided sticky wrapper.
 - **sticky-style**: Specifies the CSS style that should be added to the wrapper and element when in sticky mode.
 - **sticky-position-using-style**: Specifies whether angular-sticky should apply the `position: fixed` setting.  If set to `true`, it is recommended to use `sticky-class` to set the positioning as desired.
-- **sticky-class**: Specifies the CSS class that should be added to the wrapper and element when in sticky mode.
+- **sticky-class**: Specifies the CSS class that should be added to the element when in sticky mode.
 - **sticky-init-delay**: Sets the number of milliseconds delay before the sticky element is initialized.
 
 ## Demo
