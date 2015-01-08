@@ -26,7 +26,7 @@
 
 		return {
 			link: function (scope, angularElement, attrs) {
-				$log.debug('[angular-sticky create]');
+				$log.debug('[angular-sticky create] version 1.1.0');
 
 				var
 				// get element
